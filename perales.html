@@ -1,2 +1,26 @@
-perales
-el alvaro es un gil que ni jugar puede
+<DOCType HTML>
+<html lang="es">
+	<head>
+		<title>pruebas</title>
+		<link rel="stylesheet" type="text/css" href="css/form.css">
+		 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<form>
+			<label>Valor 1</label><input id="uno" type="number">
+			<label>Valor 2</label><input id="dos" type="number">
+			
+			<button onclick="sumar()">Sumar</button>
+		</form>
+		<script type="text/javascript">
+			function sumar()
+			{
+				a = $('#uno').val();
+				b = $('#dos').val();
+				c = parseInt(a) + parseInt(b);
+				alert("La suma es " + c);
+				//$('#result').val() = c;
+			}
+		</script>
+	</body>
+</html>
