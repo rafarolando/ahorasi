@@ -8,6 +8,5 @@ input{
 	display: block;
 }
 input:focus{
-	box-shadow: 10px red;
 	font-size: 50px;
 }
