@@ -1,3 +1,34 @@
-esto es una d 
-+sidhasd
-jsdaks
+class User < ActiveRecord::Base
+  #attr_accessible :email, :level, :nick, :password_digest le
+
+
+  attr_accessible :email, :password, :level, :password_confirmation , :nick
+
+  validates_presence_of :password, :on => :create , :message=>"no son iguales"
+
+  #attr_accessible :email, :password_digest
+  has_secure_password
+
+  validates_uniqueness_of :email , :message => "ya est&aacute; registrada <a href='/password_resets/new'>Ha olvidado su clave?</a>" #, :email
+  validates_length_of     :password, :within => 6..40, :allow_nil => true, :message => "de contener al menos 6 caracteres"
+  validates_format_of     :email, :with => /^[A-Z0-9._%-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i, :message => "no es correcto"
+  validates_uniqueness_of :nick , :message => "Ya existe este nombre de usuario"
+
+
+
+  before_create { generate_token(:auth_token) }
+
+  def send_password_reset
+    generate_token(:password_reset_token)
+    self.password_reset_sent_at = Time.zone.now
+    save!
+    UserMailer.password_reset(self).deliver
+  end
+
+  def generate_token(column)
+    begin
+      self[column] = SecureRandom.urlsafe_base64
+    end while User.exists?(column => self[column])
+  end
+
+end
